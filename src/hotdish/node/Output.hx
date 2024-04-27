@@ -29,15 +29,15 @@ class Output extends Node {
 			.concat([getBuildFlag()])
 			.join(' ');
 
-		trace(cmd);
+		#if debug trace(cmd); #end
 
-		// var code = try Sys.command(cmd) catch (e) {
-		// 	return new Error(InternalError, e.message);
-		// }
+		var code = try Sys.command(cmd) catch (e) {
+			return new Error(InternalError, e.message);
+		}
 
-		// if (code != 0) {
-		// 	return new Error(InternalError, 'Compile failed');
-		// }
+		if (code != 0) {
+			return new Error(InternalError, 'Compile failed');
+		}
 
 		return Task.resolve(Nothing);
 	}
