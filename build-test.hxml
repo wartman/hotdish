@@ -1,0 +1,10 @@
+# THIS IS A GENERATED FILE. DO NOT EDIT.
+
+-cp src
+-lib kit
+-lib kit.cli
+-lib kit.file
+-lib kit.macro
+-cp test
+-lib kit.spec
+-main Run

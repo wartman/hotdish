@@ -1,0 +1,6 @@
+-cp src
+-lib kit
+-lib kit.cli
+-lib kit.macro
+-lib kit.file
+-D hotdish=0.0.1

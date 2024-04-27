@@ -1,0 +1,8 @@
+# Running `$ haxe run.hxml` will set up the entire project
+# and handle any build commands.
+
+-cp ./
+
+-lib hotdish
+
+--run Project

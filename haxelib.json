@@ -1,0 +1,21 @@
+{
+  "name": "hotdish",
+  "description": "Composable build tools for Haxe",
+  "dependencies": {
+    "kit.cli": "0.0.1",
+    "kit.file": "0.1.0",
+    "kit.macro": "0.0.1",
+    "kit": "0.1.0"
+  },
+  "url": "https://github.com/wartman/hotdish",
+  "contributors": [
+    "wartman"
+  ],
+  "version": "0.0.1",
+  "releasenote": "First release",
+  "tags": [
+    "markup",
+    "compiler"
+  ],
+  "license": "MIT"
+}
