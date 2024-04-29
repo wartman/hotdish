@@ -12,7 +12,7 @@ class Command extends Node {
 		}
 
 		if (code != 0) {
-			return new Error(InternalError, 'Command failed');
+			return new Error(InternalError, 'Command failed with code $code');
 		}
 
 		return Nothing;

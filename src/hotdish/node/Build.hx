@@ -5,6 +5,11 @@ typedef Dependency = {
 	public final ?version:SemVer;
 }
 
+typedef Resource = {
+	public final name:String;
+	public final path:String;
+}
+
 enum BuildMode {
 	ModeBuild;
 	ModeRun;
@@ -21,6 +26,7 @@ class Build extends Node {
 	@:prop public final flags:BuildFlags = new BuildFlags();
 	@:prop public final macros:Array<String> = [];
 	@:prop public final dependencies:Array<Dependency> = [];
+	@:prop public final resources:Array<Resource> = [];
 
 	@:prop final children:Array<Node> = [];
 
@@ -28,6 +34,23 @@ class Build extends Node {
 		return children;
 	}
 
+	public function getDependencies() {
+		var out = Build.maybeFrom(this)
+			.map(build -> build.getDependencies())
+			.or(() -> []);
+
+		return out.concat(dependencies);
+	}
+
+	public function getBuildFlags():BuildFlags {
+		var other:BuildFlags = Build.maybeFrom(this)
+			.map(build -> build.getBuildFlags())
+			.or(() -> {});
+
+		return flags.merge(other);
+	}
+
+	// @todo: rename this to `toCliFlags`.
 	public function getFlags(?options:{
 		public final mode:BuildMode;
 	}):Array<String> {
@@ -47,6 +70,10 @@ class Build extends Node {
 
 		for (expr in macros) {
 			out.push('--macro $expr');
+		}
+
+		for (resource in resources) {
+			out.push('--resource ${resource.path}@${resource.name}');
 		}
 
 		if (main != null) switch options?.mode {
@@ -84,5 +111,23 @@ abstract BuildFlags(BuildFlagsObject) from BuildFlagsObject {
 			}
 		}
 		return out;
+	}
+
+	public function merge(other:BuildFlags):BuildFlags {
+		var out = {};
+		var obj = other.unwrap();
+		for (field in Reflect.fields(this)) {
+			Reflect.setField(out, field, Reflect.field(this, field));
+		}
+		for (field in Reflect.fields(obj)) {
+			if (!Reflect.hasField(out, field)) {
+				Reflect.setField(out, field, Reflect.field(obj, field));
+			}
+		}
+		return out;
+	}
+
+	public function unwrap():{} {
+		return this;
 	}
 }
