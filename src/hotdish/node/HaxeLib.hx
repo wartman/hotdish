@@ -19,6 +19,7 @@ class HaxeLib extends Node {
 
 		var body = stringify({
 			name: project.name,
+			classPath: build.sources[0] ?? 'src',
 			description: project.description,
 			version: project.version.toString(),
 			url: project.url,

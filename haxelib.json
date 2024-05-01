@@ -1,6 +1,7 @@
 {
   "name": "hotdish",
   "description": "Composable build tools for Haxe",
+  "classPath": "src",
   "dependencies": {
     "kit.cli": "0.0.1",
     "kit.file": "0.1.0",
