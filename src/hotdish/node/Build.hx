@@ -91,8 +91,20 @@ class Build extends Node {
 typedef BuildFlagsObject = {};
 
 abstract BuildFlags(BuildFlagsObject) from BuildFlagsObject {
+	@:from public static function fromMap(map:Map<String, Dynamic>):BuildFlags {
+		var obj = {};
+		for (name => value in map) {
+			Reflect.setField(obj, name, value);
+		}
+		return new BuildFlags(obj);
+	}
+
 	public function new(?props) {
 		this = props ?? {};
+	}
+
+	public function set(name:String, value:Dynamic) {
+		Reflect.setField(this, name, value);
 	}
 
 	public function toEntries() {
