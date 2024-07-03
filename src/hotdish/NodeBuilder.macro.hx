@@ -2,11 +2,11 @@ package hotdish;
 
 import haxe.macro.Expr;
 import kit.macro.*;
-import kit.macro.parser.*;
+import kit.macro.step.*;
 
 final builder = new ClassBuilderFactory([
-	new AutoInitializedFieldParser({meta: 'prop'}),
-	new ConstructorParser(),
+	new AutoInitializedFieldBuildStep({meta: 'prop'}),
+	new ConstructorBuildStep(),
 	new NodeBuilder()
 ]);
 
@@ -14,7 +14,7 @@ function build() {
 	return builder.fromContext().export();
 }
 
-class NodeBuilder implements Parser {
+class NodeBuilder implements BuildStep {
 	public final priority:Priority = Late;
 
 	public function new() {}
