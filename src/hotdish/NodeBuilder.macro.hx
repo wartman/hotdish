@@ -47,6 +47,16 @@ class NodeBuilder implements BuildStep {
 				});
 		}
 
+		switch builder.findField('finish') {
+			case Some(_):
+			case None:
+				builder.add(macro class {
+					function finish():kit.Task<kit.Nothing> {
+						return kit.Task.resolve(Nothing);
+					}
+				});
+		}
+
 		switch builder.findField('build') {
 			case Some(_):
 			case None:

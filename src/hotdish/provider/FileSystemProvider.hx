@@ -1,7 +1,7 @@
 package hotdish.provider;
 
-import kit.file.adaptor.SysAdaptor;
 import kit.file.*;
+import kit.file.adaptor.SysAdaptor;
 
 class FileSystemProvider extends Node {
 	public static function sure(context:Node):FileSystem {

@@ -16,6 +16,8 @@ abstract class Node {
 
 	abstract function execute():Task<Nothing>;
 
+	abstract function finish():Task<Nothing>;
+
 	public function initialize(parent:Null<Node>):Node {
 		assert(__status == Uninitialized);
 		__status = Initialized(parent);
@@ -25,7 +27,12 @@ abstract class Node {
 
 	public function apply():Task<Nothing> {
 		return execute()
-			.next(_ -> Task.parallel(...getChildren().map(child -> child.apply())));
+			.next(_ -> applyChildren())
+			.next(_ -> finish());
+	}
+
+	function applyChildren():Task<Nothing> {
+		return Task.parallel(...getChildren().map(child -> child.apply()));
 	}
 
 	public function getParent():Null<Node> {

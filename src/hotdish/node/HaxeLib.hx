@@ -1,6 +1,6 @@
 package hotdish.node;
 
-import haxe.Json.stringify;
+import haxe.Json;
 import hotdish.provider.*;
 
 /**
@@ -17,7 +17,7 @@ class HaxeLib extends Node {
 			Reflect.setField(dependencies, dep.name, dep.version?.toString() ?? '0.0.1');
 		}
 
-		var body = stringify({
+		var body = Json.stringify({
 			name: project.name,
 			classPath: build.sources[0] ?? 'src',
 			description: project.description,
