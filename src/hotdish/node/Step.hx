@@ -9,9 +9,8 @@ class Step extends Node {
 	}
 
 	function finish():Task<Nothing> {
-		var tasks = then()
-			.map(node -> node.initialize(this))
-			.map(node -> node.apply());
-		return Task.parallel(...tasks);
+		var nodes = then();
+		for (node in nodes) node.initialize(this);
+		return Task.parallel(...[for (node in nodes) node.apply()]);
 	}
 }

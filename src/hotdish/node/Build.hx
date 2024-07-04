@@ -10,11 +10,6 @@ typedef Resource = {
 	public final path:String;
 }
 
-enum BuildMode {
-	ModeBuild;
-	ModeRun;
-}
-
 /**
 	Configures a Haxe project, setting up sources, flags and dependencies
 	for the compiler. Build nodes are composable and will inherit the
@@ -42,6 +37,13 @@ class Build extends Node {
 		return out.concat(dependencies);
 	}
 
+	public function getMain():Maybe<String> {
+		if (main == null) {
+			return Build.maybeFrom(this).flatMap(build -> build.getMain());
+		}
+		return Some(main);
+	}
+
 	public function getBuildFlags():BuildFlags {
 		var other:BuildFlags = Build.maybeFrom(this)
 			.map(build -> build.getBuildFlags())
@@ -50,12 +52,9 @@ class Build extends Node {
 		return flags.merge(other);
 	}
 
-	// @todo: rename this to `toCliFlags`.
-	public function getFlags(?options:{
-		public final mode:BuildMode;
-	}):Array<String> {
+	public function toCliFlags():Array<String> {
 		var out = Build.maybeFrom(this)
-			.map(build -> build.getFlags())
+			.map(build -> build.toCliFlags())
 			.or(() -> []);
 
 		for (source in sources) {
@@ -74,13 +73,6 @@ class Build extends Node {
 
 		for (resource in resources) {
 			out.push('--resource ${resource.path}@${resource.name}');
-		}
-
-		if (main != null) switch options?.mode {
-			case ModeRun:
-				out.push('--run $main');
-			default:
-				out.push('-main $main');
 		}
 
 		return out;

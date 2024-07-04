@@ -24,9 +24,17 @@ class Output extends Node {
 	}
 
 	function execute():Task<Nothing> {
+		var build = Build.from(this);
+		var flags = build.toCliFlags();
+		var main = switch build.getMain() {
+			case Some(main):
+				main;
+			case None:
+				return new Error(NotFound, 'No `main` was set');
+		}
 		var cmd = ['haxe'.createNodeCommand()]
-			.concat(Build.from(this).getFlags())
-			.concat([getBuildFlag()])
+			.concat(flags)
+			.concat(['-main $main', getBuildFlag()])
 			.join(' ');
 
 		#if debug trace(cmd); #end

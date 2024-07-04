@@ -7,9 +7,19 @@ using hotdish.cli.CliTools;
 **/
 class Run extends Node {
 	function execute():Task<Nothing> {
-		var cmd = ['haxe'.createNodeCommand()].concat(Build.from(this).getFlags({
-			mode: ModeRun
-		})).join(' ');
+		var build = Build.from(this);
+		var flags = build.toCliFlags();
+		var main = switch build.getMain() {
+			case Some(main):
+				main;
+			case None:
+				return new Error(NotFound, 'No `main` was set');
+		}
+
+		var cmd = ['haxe'.createNodeCommand()]
+			.concat(flags)
+			.concat(['--run ${main}'])
+			.join(' ');
 
 		var code = try Sys.command(cmd) catch (e) {
 			return new Error(InternalError, e.message);

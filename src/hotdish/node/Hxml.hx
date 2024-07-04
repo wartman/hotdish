@@ -19,10 +19,17 @@ class Hxml extends Node {
 	function execute():Task<Nothing> {
 		var fs = FileSystemProvider.sure(this);
 		var name = this.name == null ? 'build' : name;
+		var build = Build.from(this);
 		var body = [
 			'# THIS IS A GENERATED FILE. DO NOT EDIT.',
 			''
-		].concat(Build.from(this).getFlags());
+		].concat(build.toCliFlags());
+
+		switch build.getMain() {
+			case Some(main):
+				body.push('-main $main');
+			case None:
+		}
 
 		switch Output.maybeFrom(this) {
 			case Some(output):

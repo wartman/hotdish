@@ -32,7 +32,7 @@ abstract class Node {
 	}
 
 	function applyChildren():Task<Nothing> {
-		return Task.parallel(...getChildren().map(child -> child.apply()));
+		return Task.sequence(...getChildren().map(child -> child.apply()));
 	}
 
 	public function getParent():Null<Node> {

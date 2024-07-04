@@ -15,6 +15,6 @@ class Command extends Node {
 			return new Error(InternalError, 'Command failed with code $code');
 		}
 
-		return Nothing;
+		return Task.resolve(Nothing);
 	}
 }
