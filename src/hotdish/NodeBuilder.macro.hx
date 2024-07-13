@@ -42,7 +42,7 @@ class NodeBuilder implements BuildStep {
 			case None:
 				builder.add(macro class {
 					function execute():kit.Task<kit.Nothing> {
-						return kit.Task.resolve(Nothing);
+						return kit.Task.nothing();
 					}
 				});
 		}
@@ -52,7 +52,7 @@ class NodeBuilder implements BuildStep {
 			case None:
 				builder.add(macro class {
 					function finish():kit.Task<kit.Nothing> {
-						return kit.Task.resolve(Nothing);
+						return kit.Task.nothing();
 					}
 				});
 		}
