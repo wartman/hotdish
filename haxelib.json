@@ -3,10 +3,8 @@
   "description": "Composable build tools for Haxe",
   "classPath": "src",
   "dependencies": {
-    "kit.cli": "0.0.1",
     "kit.file": "0.1.0",
-    "kit.macro": "0.0.1",
-    "kit": "0.1.0"
+    "kit": "0.2.0"
   },
   "url": "https://github.com/wartman/hotdish",
   "contributors": [

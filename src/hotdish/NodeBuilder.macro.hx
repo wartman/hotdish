@@ -4,14 +4,12 @@ import haxe.macro.Expr;
 import kit.macro.*;
 import kit.macro.step.*;
 
-final builder = new ClassBuilderFactory([
-	new AutoInitializedFieldBuildStep({meta: 'prop'}),
-	new ConstructorBuildStep(),
-	new NodeBuilder()
-]);
-
 function build() {
-	return builder.fromContext().export();
+	return ClassBuilder.fromContext()
+		.step(new AutoInitializedFieldBuildStep({meta: 'prop'}))
+		.step(new ConstructorBuildStep())
+		.step(new NodeBuilder())
+		.export();
 }
 
 class NodeBuilder implements BuildStep {

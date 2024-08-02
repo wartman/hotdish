@@ -15,10 +15,8 @@ function main() {
 			new Build({
 				sources: ['src'],
 				dependencies: [
-					{version: '0.1.0', name: 'kit'},
-					{version: '0.0.1', name: 'kit.cli'},
-					{version: '0.1.0', name: 'kit.file'},
-					{version: '0.0.1', name: 'kit.macro'}
+					{version: '0.2.0', name: 'kit'},
+					{version: '0.1.0', name: 'kit.file'}
 				],
 				children: [
 					new HaxeLib({}),
@@ -26,9 +24,6 @@ function main() {
 					new Build({
 						sources: ['test'],
 						main: 'Run',
-						dependencies: [
-							{version: '0.1.0', name: 'kit.spec'}
-						],
 						children: [
 							new Hxml({name: 'build-test'}),
 							new Run({})
