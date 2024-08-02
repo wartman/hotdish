@@ -5,17 +5,19 @@ import kit.macro.*;
 import kit.macro.step.*;
 
 function build() {
-	return ClassBuilder.fromContext()
-		.step(new AutoInitializedFieldBuildStep({meta: 'prop'}))
-		.step(new ConstructorBuildStep())
-		.step(new NodeBuilder())
-		.export();
+	return ClassBuilder.fromContext().addBundle(new NodeBuilder()).export();
 }
 
-class NodeBuilder implements BuildStep {
+class NodeBuilder implements BuildBundle implements BuildStep {
 	public final priority:Priority = Late;
 
 	public function new() {}
+
+	public function steps():Array<BuildStep> return [
+		new AutoInitializedFieldBuildStep({meta: 'prop'}),
+		new ConstructorBuildStep(),
+		this
+	];
 
 	public function apply(builder:ClassBuilder) {
 		var cls = builder.getClass();
